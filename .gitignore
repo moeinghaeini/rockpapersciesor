@@ -1,0 +1,76 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Data files (keep structure but ignore large files)
+data/raw/*.jpg
+data/raw/*.png
+data/raw/*.jpeg
+data/processed/*.npy
+data/processed/*.pkl
+
+# Model files
+results/models/*.h5
+results/models/*.pkl
+results/models/*.joblib
+
+# Logs
+results/logs/*.log
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Kaggle API
+.kaggle/
+
+# Environment variables
+.env
+
+# Temporary files
+*.tmp
+*.temp

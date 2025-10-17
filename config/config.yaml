@@ -1,0 +1,87 @@
+# Rock-Paper-Scissors CNN Project Configuration
+
+# Data Configuration
+data:
+  raw_path: "data/raw"
+  processed_path: "data/processed"
+  image_size: [224, 224]  # [height, width]
+  batch_size: 32
+  validation_split: 0.2
+  test_split: 0.1
+  random_seed: 42
+
+# Data Augmentation
+augmentation:
+  rotation_range: 20
+  width_shift_range: 0.1
+  height_shift_range: 0.1
+  horizontal_flip: true
+  zoom_range: 0.1
+  fill_mode: "nearest"
+
+# Model Configuration
+models:
+  # Simple CNN
+  simple_cnn:
+    conv_layers: 2
+    filters: [32, 64]
+    kernel_size: 3
+    activation: "relu"
+    dropout: 0.25
+    dense_units: 128
+    
+  # Medium CNN
+  medium_cnn:
+    conv_layers: 3
+    filters: [32, 64, 128]
+    kernel_size: 3
+    activation: "relu"
+    dropout: 0.3
+    dense_units: 256
+    
+  # Complex CNN
+  complex_cnn:
+    conv_layers: 4
+    filters: [32, 64, 128, 256]
+    kernel_size: 3
+    activation: "relu"
+    dropout: 0.4
+    dense_units: 512
+
+# Training Configuration
+training:
+  epochs: 50
+  learning_rate: 0.001
+  optimizer: "adam"
+  loss_function: "categorical_crossentropy"
+  metrics: ["accuracy"]
+  early_stopping:
+    patience: 10
+    restore_best_weights: true
+  reduce_lr:
+    factor: 0.5
+    patience: 5
+
+# Hyperparameter Tuning
+hyperparameter_tuning:
+  method: "grid_search"  # or "random_search", "optuna"
+  param_grid:
+    learning_rate: [0.001, 0.0001, 0.01]
+    batch_size: [16, 32, 64]
+    dropout: [0.2, 0.3, 0.4, 0.5]
+  cv_folds: 5
+  n_trials: 20  # for random search or optuna
+
+# Results and Logging
+results:
+  models_path: "results/models"
+  plots_path: "results/plots"
+  logs_path: "results/logs"
+  save_best_model: true
+  save_training_history: true
+
+# Classes
+classes:
+  - "rock"
+  - "paper"
+  - "scissors"

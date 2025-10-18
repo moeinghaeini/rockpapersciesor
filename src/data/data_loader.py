@@ -219,6 +219,13 @@ class RockPaperScissorsDataLoader:
                 'test': test_images
             }
             
+            # Copy files to respective directories
+            import shutil
+            for split_name, image_list in split_info[class_name].items():
+                for image_path in image_list:
+                    dest_path = split_dirs[split_name] / class_name / image_path.name
+                    shutil.copy2(image_path, dest_path)
+            
             logger.info(f"{class_name}: train={len(train_images)}, "
                        f"val={len(val_images)}, test={len(test_images)}")
         

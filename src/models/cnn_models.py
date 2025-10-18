@@ -65,7 +65,7 @@ class RockPaperScissorsCNN:
     
     def create_medium_cnn(self, input_shape=(224, 224, 3)):
         """
-        Create a medium complexity CNN architecture.
+        Create a medium complexity CNN architecture with improved regularization.
         
         Args:
             input_shape (tuple): Input image shape
@@ -74,30 +74,38 @@ class RockPaperScissorsCNN:
             keras.Model: Compiled model
         """
         config = self.model_configs['medium_cnn']
+        l2_reg = keras.regularizers.l2(config.get('l2_regularization', 0.001))
         
         model = keras.Sequential([
             # First convolutional block
             layers.Conv2D(config['filters'][0], config['kernel_size'], 
-                         activation=config['activation'], input_shape=input_shape),
+                         activation=config['activation'], input_shape=input_shape,
+                         kernel_regularizer=l2_reg),
             layers.BatchNormalization(),
+            layers.Dropout(0.1),  # Add dropout after conv layers
             layers.MaxPooling2D(2),
             
             # Second convolutional block
             layers.Conv2D(config['filters'][1], config['kernel_size'], 
-                         activation=config['activation']),
+                         activation=config['activation'],
+                         kernel_regularizer=l2_reg),
             layers.BatchNormalization(),
+            layers.Dropout(0.1),
             layers.MaxPooling2D(2),
             
             # Third convolutional block
             layers.Conv2D(config['filters'][2], config['kernel_size'], 
-                         activation=config['activation']),
+                         activation=config['activation'],
+                         kernel_regularizer=l2_reg),
             layers.BatchNormalization(),
+            layers.Dropout(0.1),
             layers.MaxPooling2D(2),
             
-            # Flatten and dense layers
-            layers.Flatten(),
+            # Global average pooling instead of flatten (reduces parameters)
+            layers.GlobalAveragePooling2D(),
             layers.Dropout(config['dropout']),
-            layers.Dense(config['dense_units'], activation='relu'),
+            layers.Dense(config['dense_units'], activation='relu',
+                        kernel_regularizer=l2_reg),
             layers.Dropout(config['dropout'] * 0.5),
             layers.Dense(self.num_classes, activation='softmax')
         ])
@@ -106,7 +114,7 @@ class RockPaperScissorsCNN:
     
     def create_complex_cnn(self, input_shape=(224, 224, 3)):
         """
-        Create a complex CNN architecture.
+        Create a complex CNN architecture with improved regularization.
         
         Args:
             input_shape (tuple): Input image shape
@@ -115,38 +123,49 @@ class RockPaperScissorsCNN:
             keras.Model: Compiled model
         """
         config = self.model_configs['complex_cnn']
+        l2_reg = keras.regularizers.l2(config.get('l2_regularization', 0.001))
         
         model = keras.Sequential([
             # First convolutional block
             layers.Conv2D(config['filters'][0], config['kernel_size'], 
-                         activation=config['activation'], input_shape=input_shape),
+                         activation=config['activation'], input_shape=input_shape,
+                         kernel_regularizer=l2_reg),
             layers.BatchNormalization(),
+            layers.Dropout(0.1),  # Add dropout after conv layers
             layers.MaxPooling2D(2),
             
             # Second convolutional block
             layers.Conv2D(config['filters'][1], config['kernel_size'], 
-                         activation=config['activation']),
+                         activation=config['activation'],
+                         kernel_regularizer=l2_reg),
             layers.BatchNormalization(),
+            layers.Dropout(0.1),
             layers.MaxPooling2D(2),
             
             # Third convolutional block
             layers.Conv2D(config['filters'][2], config['kernel_size'], 
-                         activation=config['activation']),
+                         activation=config['activation'],
+                         kernel_regularizer=l2_reg),
             layers.BatchNormalization(),
+            layers.Dropout(0.1),
             layers.MaxPooling2D(2),
             
             # Fourth convolutional block
             layers.Conv2D(config['filters'][3], config['kernel_size'], 
-                         activation=config['activation']),
+                         activation=config['activation'],
+                         kernel_regularizer=l2_reg),
             layers.BatchNormalization(),
+            layers.Dropout(0.1),
             layers.MaxPooling2D(2),
             
-            # Global average pooling instead of flatten
+            # Global average pooling instead of flatten (reduces parameters significantly)
             layers.GlobalAveragePooling2D(),
             layers.Dropout(config['dropout']),
-            layers.Dense(config['dense_units'], activation='relu'),
+            layers.Dense(config['dense_units'], activation='relu',
+                        kernel_regularizer=l2_reg),
             layers.Dropout(config['dropout'] * 0.5),
-            layers.Dense(config['dense_units'] // 2, activation='relu'),
+            layers.Dense(config['dense_units'] // 2, activation='relu',
+                        kernel_regularizer=l2_reg),
             layers.Dropout(config['dropout'] * 0.3),
             layers.Dense(self.num_classes, activation='softmax')
         ])

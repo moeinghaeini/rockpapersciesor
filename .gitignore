@@ -70,9 +70,8 @@ outputs/
 plots/
 models/
 
-# Data (if large)
-data/raw/
-data/processed/
+# Data
+data/
 
 # Temporary files
 *.tmp
